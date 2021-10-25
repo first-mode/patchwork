@@ -14,6 +14,7 @@ def rsync(
     strict_host_keys=True,
     rsync_opts="",
     ssh_opts="",
+    sshpass="",
 ):
     """
     Convenient wrapper around your friendly local ``rsync``.
@@ -77,6 +78,8 @@ def rsync(
     :param str ssh_opts:
         Like ``rsync_opts`` but specifically for the SSH options string
         (rsync's ``--rsh`` flag.)
+    :param str sshpass
+        if a password is provided, will use the sshpass tool to supply the password (prepends the rsync cmd)
     """
     # Turn single-string exclude into a one-item list for consistency
     if isinstance(exclude, six.string_types):
@@ -130,4 +133,6 @@ def rsync(
     else:
         cmd = "rsync {} {} {}@{}:{}"
     cmd = cmd.format(options, source, user, host, target)
+    if sshpass:
+        cmd = f"sshpass -p {sshpass} {cmd}"
     return c.local(cmd)
