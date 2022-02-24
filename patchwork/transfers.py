@@ -138,4 +138,6 @@ def rsync(
     cmd = cmd.format(options, source, user, host, target)
     if sshpass:
         cmd = f"sshpass -p {sshpass} {cmd}"
+    if c.gateway is not None:
+        return c.run(cmd)
     return c.local(cmd)
