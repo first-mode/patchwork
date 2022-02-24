@@ -14,6 +14,7 @@ def rsync(
     strict_host_keys=True,
     rsync_opts="",
     ssh_opts="",
+    sshuser="",
     sshpass="",
 ):
     """
@@ -132,6 +133,8 @@ def rsync(
         cmd = "rsync {} {} [{}@{}]:{}"
     else:
         cmd = "rsync {} {} {}@{}:{}"
+    if sshuser:
+        user = sshuser
     cmd = cmd.format(options, source, user, host, target)
     if sshpass:
         cmd = f"sshpass -p {sshpass} {cmd}"
