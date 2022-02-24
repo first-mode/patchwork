@@ -16,6 +16,7 @@ def rsync(
     ssh_opts="",
     sshuser="",
     sshpass="",
+    ignore_ssh_keys=False,
 ):
     """
     Convenient wrapper around your friendly local ``rsync``.
@@ -103,6 +104,8 @@ def rsync(
     # overhaul tho!)
     if isinstance(keys, six.string_types):
         keys = [keys]
+    if ignore_ssh_keys:
+        keys = []
     if keys:
         key_string = "-i " + " -i ".join(keys)
     # Get base cxn params
